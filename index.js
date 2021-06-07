@@ -19,15 +19,25 @@ refs.btnStop.addEventListener("click", onBtnStopClick);
 let intervalId = null;
 
 function onBtnStartClick(evt) {
-  evt.target.disabled = true;
-
   intervalId = setInterval(() => {
     refs.body.style.backgroundColor =
       colors[randomIntegerFromInterval(0, colors.length - 1)];
   }, 1000);
+
+  if (intervalId !== null) {
+    // evt.target.disabled = true;
+    // refs.btnStop.removeAttribute("disabled");
+    evt.target.removeEventListener("click", onBtnStartClick);
+    refs.btnStop.addEventListener("click", onBtnStopClick);
+    return;
+  }
 }
 
 function onBtnStopClick(evt) {
+  // refs.btnStart.removeAttribute("disabled");
+  // evt.target.disabled = true;
+  evt.target.removeEventListener("click", onBtnStopClick);
+  refs.btnStart.addEventListener("click", onBtnStartClick);
   clearInterval(intervalId);
 }
 
